@@ -89,14 +89,31 @@ function EmailAssistant() {
               <p className="text-xs uppercase tracking-wider text-muted-foreground">Draft email</p>
               <h3 className="font-display font-bold text-lg text-foreground">To: {manager}</h3>
             </div>
-            <Button onClick={copy} size="sm" className="rounded-full gap-2 bg-purple hover:bg-purple/90 text-white">
-              {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              {copied ? "Copied" : "Copy"}
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button onClick={copy} size="sm" className="rounded-full gap-2 bg-purple hover:bg-purple/90 text-white">
+                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied ? "Copied" : "Copy"}
+              </Button>
+              <Button
+                onClick={() => {
+                  const url = `https://teams.microsoft.com/l/chat/0/0?message=${encodeURIComponent(email)}`;
+                  window.open(url, "_blank");
+                }}
+                size="sm"
+                variant="outline"
+                className="rounded-full gap-2 border-navy text-navy hover:bg-navy hover:text-white"
+              >
+                <TeamsIcon className="h-4 w-4" />
+                Open in Teams
+              </Button>
+            </div>
           </div>
           <pre className="flex-1 whitespace-pre-wrap rounded-2xl bg-muted/60 p-5 text-sm leading-relaxed text-foreground font-sans">
 {email}
           </pre>
+          <div className="mt-4">
+            <ResponsibleAINotice />
+          </div>
         </Card>
       </div>
 
