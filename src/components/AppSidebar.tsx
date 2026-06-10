@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Mail, LineChart, Wrench, GraduationCap } from "lucide-react";
+import { Home, Mail, LineChart, Wrench, GraduationCap, ClipboardCheck } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -18,6 +18,7 @@ const items = [
   { title: "Dashboard", url: "/", icon: Home },
   { title: "Smart Email Assistant", url: "/email-assistant", icon: Mail },
   { title: "Progress Tracker", url: "/progress-tracker", icon: LineChart },
+  { title: "Daily Report", url: "/daily-report", icon: ClipboardCheck },
   { title: "AI Tool Finder", url: "/ai-tool-finder", icon: Wrench },
 ];
 
