@@ -9,8 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProgressTrackerRouteImport } from './routes/progress-tracker'
+import { Route as EmailAssistantRouteImport } from './routes/email-assistant'
+import { Route as AiToolFinderRouteImport } from './routes/ai-tool-finder'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ProgressTrackerRoute = ProgressTrackerRouteImport.update({
+  id: '/progress-tracker',
+  path: '/progress-tracker',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmailAssistantRoute = EmailAssistantRouteImport.update({
+  id: '/email-assistant',
+  path: '/email-assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiToolFinderRoute = AiToolFinderRouteImport.update({
+  id: '/ai-tool-finder',
+  path: '/ai-tool-finder',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +37,66 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-tool-finder': typeof AiToolFinderRoute
+  '/email-assistant': typeof EmailAssistantRoute
+  '/progress-tracker': typeof ProgressTrackerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-tool-finder': typeof AiToolFinderRoute
+  '/email-assistant': typeof EmailAssistantRoute
+  '/progress-tracker': typeof ProgressTrackerRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-tool-finder': typeof AiToolFinderRoute
+  '/email-assistant': typeof EmailAssistantRoute
+  '/progress-tracker': typeof ProgressTrackerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/ai-tool-finder' | '/email-assistant' | '/progress-tracker'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/ai-tool-finder' | '/email-assistant' | '/progress-tracker'
+  id:
+    | '__root__'
+    | '/'
+    | '/ai-tool-finder'
+    | '/email-assistant'
+    | '/progress-tracker'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiToolFinderRoute: typeof AiToolFinderRoute
+  EmailAssistantRoute: typeof EmailAssistantRoute
+  ProgressTrackerRoute: typeof ProgressTrackerRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/progress-tracker': {
+      id: '/progress-tracker'
+      path: '/progress-tracker'
+      fullPath: '/progress-tracker'
+      preLoaderRoute: typeof ProgressTrackerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/email-assistant': {
+      id: '/email-assistant'
+      path: '/email-assistant'
+      fullPath: '/email-assistant'
+      preLoaderRoute: typeof EmailAssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-tool-finder': {
+      id: '/ai-tool-finder'
+      path: '/ai-tool-finder'
+      fullPath: '/ai-tool-finder'
+      preLoaderRoute: typeof AiToolFinderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +109,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiToolFinderRoute: AiToolFinderRoute,
+  EmailAssistantRoute: EmailAssistantRoute,
+  ProgressTrackerRoute: ProgressTrackerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
