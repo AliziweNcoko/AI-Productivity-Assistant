@@ -8,6 +8,14 @@ import { Label } from "@/components/ui/label";
 import { ResponsibleAINotice } from "@/components/ResponsibleAINotice";
 import { toast } from "sonner";
 
+function TeamsIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20.625 8.25h-3.375v-3.375c0-.621-.504-1.125-1.125-1.125h-1.125v-1.125c0-1.242-1.008-2.25-2.25-2.25s-2.25 1.008-2.25 2.25v1.125h-1.125c-.621 0-1.125.504-1.125 1.125v3.375h-3.375c-.621 0-1.125.504-1.125 1.125v1.125h1.125c1.242 0 2.25 1.008 2.25 2.25s-1.008 2.25-2.25 2.25h-1.125v1.125c0 .621.504 1.125 1.125 1.125h3.375v3.375c0 .621.504 1.125 1.125 1.125h1.125v-1.125c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25v1.125h1.125c.621 0 1.125-.504 1.125-1.125v-3.375h3.375c.621 0 1.125-.504 1.125-1.125v-1.125h-1.125c-1.242 0-2.25-1.008-2.25-2.25s1.008-2.25 2.25-2.25h1.125v-1.125c0-.621-.504-1.125-1.125-1.125z" />
+    </svg>
+  );
+}
+
 export const Route = createFileRoute("/email-assistant")({
   head: () => ({
     meta: [
