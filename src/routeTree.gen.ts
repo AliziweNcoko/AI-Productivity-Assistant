@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProgressTrackerRouteImport } from './routes/progress-tracker'
 import { Route as EmailAssistantRouteImport } from './routes/email-assistant'
+import { Route as DailyReportRouteImport } from './routes/daily-report'
 import { Route as AiToolFinderRouteImport } from './routes/ai-tool-finder'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -22,6 +23,11 @@ const ProgressTrackerRoute = ProgressTrackerRouteImport.update({
 const EmailAssistantRoute = EmailAssistantRouteImport.update({
   id: '/email-assistant',
   path: '/email-assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DailyReportRoute = DailyReportRouteImport.update({
+  id: '/daily-report',
+  path: '/daily-report',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiToolFinderRoute = AiToolFinderRouteImport.update({
@@ -38,12 +44,14 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai-tool-finder': typeof AiToolFinderRoute
+  '/daily-report': typeof DailyReportRoute
   '/email-assistant': typeof EmailAssistantRoute
   '/progress-tracker': typeof ProgressTrackerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ai-tool-finder': typeof AiToolFinderRoute
+  '/daily-report': typeof DailyReportRoute
   '/email-assistant': typeof EmailAssistantRoute
   '/progress-tracker': typeof ProgressTrackerRoute
 }
@@ -51,18 +59,30 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ai-tool-finder': typeof AiToolFinderRoute
+  '/daily-report': typeof DailyReportRoute
   '/email-assistant': typeof EmailAssistantRoute
   '/progress-tracker': typeof ProgressTrackerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ai-tool-finder' | '/email-assistant' | '/progress-tracker'
+  fullPaths:
+    | '/'
+    | '/ai-tool-finder'
+    | '/daily-report'
+    | '/email-assistant'
+    | '/progress-tracker'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ai-tool-finder' | '/email-assistant' | '/progress-tracker'
+  to:
+    | '/'
+    | '/ai-tool-finder'
+    | '/daily-report'
+    | '/email-assistant'
+    | '/progress-tracker'
   id:
     | '__root__'
     | '/'
     | '/ai-tool-finder'
+    | '/daily-report'
     | '/email-assistant'
     | '/progress-tracker'
   fileRoutesById: FileRoutesById
@@ -70,6 +90,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiToolFinderRoute: typeof AiToolFinderRoute
+  DailyReportRoute: typeof DailyReportRoute
   EmailAssistantRoute: typeof EmailAssistantRoute
   ProgressTrackerRoute: typeof ProgressTrackerRoute
 }
@@ -88,6 +109,13 @@ declare module '@tanstack/react-router' {
       path: '/email-assistant'
       fullPath: '/email-assistant'
       preLoaderRoute: typeof EmailAssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/daily-report': {
+      id: '/daily-report'
+      path: '/daily-report'
+      fullPath: '/daily-report'
+      preLoaderRoute: typeof DailyReportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ai-tool-finder': {
@@ -110,9 +138,20 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiToolFinderRoute: AiToolFinderRoute,
+  DailyReportRoute: DailyReportRoute,
   EmailAssistantRoute: EmailAssistantRoute,
   ProgressTrackerRoute: ProgressTrackerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
