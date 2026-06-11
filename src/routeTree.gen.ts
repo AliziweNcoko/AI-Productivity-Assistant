@@ -9,13 +9,40 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WellnessRouteImport } from './routes/wellness'
+import { Route as WeeklyReflectionRouteImport } from './routes/weekly-reflection'
+import { Route as StudyPlannerRouteImport } from './routes/study-planner'
+import { Route as ResponsibleAiRouteImport } from './routes/responsible-ai'
 import { Route as ResearchAssistantRouteImport } from './routes/research-assistant'
 import { Route as ProgressTrackerRouteImport } from './routes/progress-tracker'
+import { Route as ManagerInsightsRouteImport } from './routes/manager-insights'
 import { Route as EmailAssistantRouteImport } from './routes/email-assistant'
 import { Route as DailyReportRouteImport } from './routes/daily-report'
+import { Route as CareerAdvisorRouteImport } from './routes/career-advisor'
+import { Route as AttendanceRiskRouteImport } from './routes/attendance-risk'
 import { Route as AiToolFinderRouteImport } from './routes/ai-tool-finder'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WellnessRoute = WellnessRouteImport.update({
+  id: '/wellness',
+  path: '/wellness',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WeeklyReflectionRoute = WeeklyReflectionRouteImport.update({
+  id: '/weekly-reflection',
+  path: '/weekly-reflection',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudyPlannerRoute = StudyPlannerRouteImport.update({
+  id: '/study-planner',
+  path: '/study-planner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResponsibleAiRoute = ResponsibleAiRouteImport.update({
+  id: '/responsible-ai',
+  path: '/responsible-ai',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResearchAssistantRoute = ResearchAssistantRouteImport.update({
   id: '/research-assistant',
   path: '/research-assistant',
@@ -26,6 +53,11 @@ const ProgressTrackerRoute = ProgressTrackerRouteImport.update({
   path: '/progress-tracker',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ManagerInsightsRoute = ManagerInsightsRouteImport.update({
+  id: '/manager-insights',
+  path: '/manager-insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EmailAssistantRoute = EmailAssistantRouteImport.update({
   id: '/email-assistant',
   path: '/email-assistant',
@@ -34,6 +66,16 @@ const EmailAssistantRoute = EmailAssistantRouteImport.update({
 const DailyReportRoute = DailyReportRouteImport.update({
   id: '/daily-report',
   path: '/daily-report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareerAdvisorRoute = CareerAdvisorRouteImport.update({
+  id: '/career-advisor',
+  path: '/career-advisor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AttendanceRiskRoute = AttendanceRiskRouteImport.update({
+  id: '/attendance-risk',
+  path: '/attendance-risk',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiToolFinderRoute = AiToolFinderRouteImport.update({
@@ -50,66 +92,143 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai-tool-finder': typeof AiToolFinderRoute
+  '/attendance-risk': typeof AttendanceRiskRoute
+  '/career-advisor': typeof CareerAdvisorRoute
   '/daily-report': typeof DailyReportRoute
   '/email-assistant': typeof EmailAssistantRoute
+  '/manager-insights': typeof ManagerInsightsRoute
   '/progress-tracker': typeof ProgressTrackerRoute
   '/research-assistant': typeof ResearchAssistantRoute
+  '/responsible-ai': typeof ResponsibleAiRoute
+  '/study-planner': typeof StudyPlannerRoute
+  '/weekly-reflection': typeof WeeklyReflectionRoute
+  '/wellness': typeof WellnessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ai-tool-finder': typeof AiToolFinderRoute
+  '/attendance-risk': typeof AttendanceRiskRoute
+  '/career-advisor': typeof CareerAdvisorRoute
   '/daily-report': typeof DailyReportRoute
   '/email-assistant': typeof EmailAssistantRoute
+  '/manager-insights': typeof ManagerInsightsRoute
   '/progress-tracker': typeof ProgressTrackerRoute
   '/research-assistant': typeof ResearchAssistantRoute
+  '/responsible-ai': typeof ResponsibleAiRoute
+  '/study-planner': typeof StudyPlannerRoute
+  '/weekly-reflection': typeof WeeklyReflectionRoute
+  '/wellness': typeof WellnessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ai-tool-finder': typeof AiToolFinderRoute
+  '/attendance-risk': typeof AttendanceRiskRoute
+  '/career-advisor': typeof CareerAdvisorRoute
   '/daily-report': typeof DailyReportRoute
   '/email-assistant': typeof EmailAssistantRoute
+  '/manager-insights': typeof ManagerInsightsRoute
   '/progress-tracker': typeof ProgressTrackerRoute
   '/research-assistant': typeof ResearchAssistantRoute
+  '/responsible-ai': typeof ResponsibleAiRoute
+  '/study-planner': typeof StudyPlannerRoute
+  '/weekly-reflection': typeof WeeklyReflectionRoute
+  '/wellness': typeof WellnessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/ai-tool-finder'
+    | '/attendance-risk'
+    | '/career-advisor'
     | '/daily-report'
     | '/email-assistant'
+    | '/manager-insights'
     | '/progress-tracker'
     | '/research-assistant'
+    | '/responsible-ai'
+    | '/study-planner'
+    | '/weekly-reflection'
+    | '/wellness'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/ai-tool-finder'
+    | '/attendance-risk'
+    | '/career-advisor'
     | '/daily-report'
     | '/email-assistant'
+    | '/manager-insights'
     | '/progress-tracker'
     | '/research-assistant'
+    | '/responsible-ai'
+    | '/study-planner'
+    | '/weekly-reflection'
+    | '/wellness'
   id:
     | '__root__'
     | '/'
     | '/ai-tool-finder'
+    | '/attendance-risk'
+    | '/career-advisor'
     | '/daily-report'
     | '/email-assistant'
+    | '/manager-insights'
     | '/progress-tracker'
     | '/research-assistant'
+    | '/responsible-ai'
+    | '/study-planner'
+    | '/weekly-reflection'
+    | '/wellness'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiToolFinderRoute: typeof AiToolFinderRoute
+  AttendanceRiskRoute: typeof AttendanceRiskRoute
+  CareerAdvisorRoute: typeof CareerAdvisorRoute
   DailyReportRoute: typeof DailyReportRoute
   EmailAssistantRoute: typeof EmailAssistantRoute
+  ManagerInsightsRoute: typeof ManagerInsightsRoute
   ProgressTrackerRoute: typeof ProgressTrackerRoute
   ResearchAssistantRoute: typeof ResearchAssistantRoute
+  ResponsibleAiRoute: typeof ResponsibleAiRoute
+  StudyPlannerRoute: typeof StudyPlannerRoute
+  WeeklyReflectionRoute: typeof WeeklyReflectionRoute
+  WellnessRoute: typeof WellnessRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wellness': {
+      id: '/wellness'
+      path: '/wellness'
+      fullPath: '/wellness'
+      preLoaderRoute: typeof WellnessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/weekly-reflection': {
+      id: '/weekly-reflection'
+      path: '/weekly-reflection'
+      fullPath: '/weekly-reflection'
+      preLoaderRoute: typeof WeeklyReflectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/study-planner': {
+      id: '/study-planner'
+      path: '/study-planner'
+      fullPath: '/study-planner'
+      preLoaderRoute: typeof StudyPlannerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/responsible-ai': {
+      id: '/responsible-ai'
+      path: '/responsible-ai'
+      fullPath: '/responsible-ai'
+      preLoaderRoute: typeof ResponsibleAiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/research-assistant': {
       id: '/research-assistant'
       path: '/research-assistant'
@@ -124,6 +243,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgressTrackerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/manager-insights': {
+      id: '/manager-insights'
+      path: '/manager-insights'
+      fullPath: '/manager-insights'
+      preLoaderRoute: typeof ManagerInsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/email-assistant': {
       id: '/email-assistant'
       path: '/email-assistant'
@@ -136,6 +262,20 @@ declare module '@tanstack/react-router' {
       path: '/daily-report'
       fullPath: '/daily-report'
       preLoaderRoute: typeof DailyReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/career-advisor': {
+      id: '/career-advisor'
+      path: '/career-advisor'
+      fullPath: '/career-advisor'
+      preLoaderRoute: typeof CareerAdvisorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/attendance-risk': {
+      id: '/attendance-risk'
+      path: '/attendance-risk'
+      fullPath: '/attendance-risk'
+      preLoaderRoute: typeof AttendanceRiskRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ai-tool-finder': {
@@ -158,10 +298,17 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiToolFinderRoute: AiToolFinderRoute,
+  AttendanceRiskRoute: AttendanceRiskRoute,
+  CareerAdvisorRoute: CareerAdvisorRoute,
   DailyReportRoute: DailyReportRoute,
   EmailAssistantRoute: EmailAssistantRoute,
+  ManagerInsightsRoute: ManagerInsightsRoute,
   ProgressTrackerRoute: ProgressTrackerRoute,
   ResearchAssistantRoute: ResearchAssistantRoute,
+  ResponsibleAiRoute: ResponsibleAiRoute,
+  StudyPlannerRoute: StudyPlannerRoute,
+  WeeklyReflectionRoute: WeeklyReflectionRoute,
+  WellnessRoute: WellnessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
