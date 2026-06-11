@@ -44,7 +44,7 @@ function Index() {
     <div className="px-4 sm:px-8 py-8 max-w-6xl mx-auto space-y-8">
       {/* Hero */}
       <section className="relative overflow-hidden rounded-3xl bg-gradient-hero text-white shadow-glow">
-        <BgPattern />
+        <AnimatedBg />
         <div className="relative p-8 sm:p-12 grid md:grid-cols-[1fr_auto] gap-8 items-center">
           <div>
             <p className="text-sm font-medium uppercase tracking-[0.2em] text-white/70">Welcome to CAPACITI Success Coach</p>
