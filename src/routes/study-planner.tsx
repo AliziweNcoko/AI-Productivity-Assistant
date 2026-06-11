@@ -20,7 +20,7 @@ export const Route = createFileRoute("/study-planner")({
 });
 
 type Plan = {
-  dailySchedule: { day: string; focus: string; hours: number }[];
+  dailySchedule: { day: string; focus: string; hours: string }[];
   revisionPlan: string[];
   priorityAreas: string[];
   timeManagementTips: string[];

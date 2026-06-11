@@ -9,6 +9,41 @@ async function getModel() {
   return createLovableAiGatewayProvider(apiKey)("google/gemini-3-flash-preview");
 }
 
+function extractJson(text: string): unknown {
+  let cleaned = text.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+  const start = cleaned.search(/[\{\[]/);
+  const isArr = start !== -1 && cleaned[start] === "[";
+  const end = cleaned.lastIndexOf(isArr ? "]" : "}");
+  if (start === -1 || end === -1) throw new Error("No JSON found");
+  cleaned = cleaned.substring(start, end + 1);
+  try {
+    return JSON.parse(cleaned);
+  } catch {
+    cleaned = cleaned.replace(/,\s*}/g, "}").replace(/,\s*]/g, "]").replace(/[\x00-\x1F\x7F]/g, "");
+    return JSON.parse(cleaned);
+  }
+}
+
+async function generateStructured<T extends z.ZodType>(schema: T, prompt: string): Promise<z.infer<T>> {
+  const model = await getModel();
+  try {
+    const { output } = await generateText({
+      model,
+      output: Output.object({ schema }),
+      prompt,
+    });
+    return output as z.infer<T>;
+  } catch (e) {
+    // Fallback: ask for raw JSON and parse manually
+    const { text } = await generateText({
+      model,
+      prompt: `${prompt}\n\nReturn ONLY a valid JSON object matching this shape, no markdown, no commentary.`,
+    });
+    const parsed = extractJson(text);
+    return schema.parse(parsed);
+  }
+}
+
 /* -------- Attendance Risk -------- */
 const AttendanceOut = z.object({
   riskLevel: z.enum(["low", "medium", "high"]),
@@ -18,24 +53,18 @@ const AttendanceOut = z.object({
 });
 export const predictAttendanceRisk = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => z.object({ attendance: z.number().min(0).max(100) }).parse(i))
-  .handler(async ({ data }) => {
-    const model = await getModel();
-    const { output } = await generateText({
-      model,
-      output: Output.object({ schema: AttendanceOut }),
-      prompt: `You are a CAPACITI student success coach. A student has an attendance percentage of ${data.attendance}%.
-Determine risk level (low >=85%, medium 70-84%, high <70%) and respond with:
-- riskLevel
-- explanation (2-3 sentences, professional and supportive)
-- recommendedActions (3-4 concrete actions)
-- motivationalMessage (1-2 warm encouraging sentences)`,
-    });
-    return output;
-  });
+  .handler(async ({ data }) =>
+    generateStructured(
+      AttendanceOut,
+      `You are a CAPACITI student success coach. A student has an attendance percentage of ${data.attendance}%.
+Determine riskLevel ("low" if >=85, "medium" if 70-84, "high" if <70).
+Respond with riskLevel, explanation (2-3 supportive sentences), recommendedActions (3-4 concrete actions), motivationalMessage (1-2 warm sentences).`,
+    ),
+  );
 
 /* -------- Study Planner -------- */
 const StudyOut = z.object({
-  dailySchedule: z.array(z.object({ day: z.string(), focus: z.string(), hours: z.number() })),
+  dailySchedule: z.array(z.object({ day: z.string(), focus: z.string(), hours: z.string() })),
   revisionPlan: z.array(z.string()),
   priorityAreas: z.array(z.string()),
   timeManagementTips: z.array(z.string()),
@@ -48,19 +77,16 @@ export const generateStudyPlan = createServerFn({ method: "POST" })
       hoursPerDay: z.number().min(0.5).max(16),
     }).parse(i),
   )
-  .handler(async ({ data }) => {
-    const model = await getModel();
-    const { output } = await generateText({
-      model,
-      output: Output.object({ schema: StudyOut }),
-      prompt: `You are a study coach for CAPACITI students. Create a personalised study plan.
-Subject/Topic: ${data.subject}
+  .handler(async ({ data }) =>
+    generateStructured(
+      StudyOut,
+      `You are a study coach for CAPACITI students. Build a study plan.
+Subject: ${data.subject}
 Assessment Date: ${data.assessmentDate}
-Available study hours per day: ${data.hoursPerDay}
-Return a daily schedule from today until the assessment date, a revision plan, top priority areas, and time-management tips. Be specific and actionable.`,
-    });
-    return output;
-  });
+Hours per day: ${data.hoursPerDay}
+Return dailySchedule (each item: day label like "Mon Jun 10", focus string, hours like "2h"), revisionPlan, priorityAreas, timeManagementTips. Be specific and actionable.`,
+    ),
+  );
 
 /* -------- Weekly Reflection -------- */
 const ReflectionOut = z.object({
@@ -78,20 +104,17 @@ export const generateReflection = createServerFn({ method: "POST" })
       goals: z.string().min(1),
     }).parse(i),
   )
-  .handler(async ({ data }) => {
-    const model = await getModel();
-    const { output } = await generateText({
-      model,
-      output: Output.object({ schema: ReflectionOut }),
-      prompt: `You are a supportive reflection coach for CAPACITI students. Synthesise this week's reflection.
-What went well: ${data.wentWell}
+  .handler(async ({ data }) =>
+    generateStructured(
+      ReflectionOut,
+      `You are a supportive reflection coach for CAPACITI students.
+Went well: ${data.wentWell}
 Challenges: ${data.challenges}
 Learned: ${data.learned}
-Goals for next week: ${data.goals}
-Provide a reflection summary, identified strengths, areas for improvement, and a concrete action plan for next week.`,
-    });
-    return output;
-  });
+Goals next week: ${data.goals}
+Return summary, strengths, areasForImprovement, actionPlan.`,
+    ),
+  );
 
 /* -------- Career Path -------- */
 const CareerOut = z.object({
@@ -113,20 +136,17 @@ export const recommendCareer = createServerFn({ method: "POST" })
       programme: z.string().min(1),
     }).parse(i),
   )
-  .handler(async ({ data }) => {
-    const model = await getModel();
-    const { output } = await generateText({
-      model,
-      output: Output.object({ schema: CareerOut }),
-      prompt: `You are a career advisor for CAPACITI students. Suggest 3 careers from this list that best fit:
+  .handler(async ({ data }) =>
+    generateStructured(
+      CareerOut,
+      `You are a career advisor for CAPACITI students. Pick 3 careers from:
 AI Engineer, Data Analyst, Full Stack Developer, Cloud Engineer, Software Developer, Product Manager.
 Skills: ${data.skills}
 Interests: ${data.interests}
-Current Programme: ${data.programme}
-For each recommended career include why it fits, required skills, learning resources, and next steps.`,
-    });
-    return output;
-  });
+Programme: ${data.programme}
+For each: title, whyItFits, requiredSkills, learningResources, nextSteps.`,
+    ),
+  );
 
 /* -------- Wellness -------- */
 const WellnessOut = z.object({
@@ -139,13 +159,10 @@ export const wellnessCoach = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) =>
     z.object({ mood: z.enum(["great", "good", "okay", "struggling"]) }).parse(i),
   )
-  .handler(async ({ data }) => {
-    const model = await getModel();
-    const { output } = await generateText({
-      model,
-      output: Output.object({ schema: WellnessOut }),
-      prompt: `You are a warm wellness coach for CAPACITI students. The student feels: ${data.mood}.
-Respond with an encouraging message, productivity advice, study tips, and support recommendations. Be empathetic and professional. If "struggling", gently suggest reaching out to a Day Manager or counsellor.`,
-    });
-    return output;
-  });
+  .handler(async ({ data }) =>
+    generateStructured(
+      WellnessOut,
+      `You are a warm wellness coach for CAPACITI students. Student feels: ${data.mood}.
+Return encouragement (1-2 sentences), productivityAdvice (3 items), studyTips (3 items), supportRecommendations (2-3 items). If "struggling", suggest reaching out to a Day Manager.`,
+    ),
+  );
