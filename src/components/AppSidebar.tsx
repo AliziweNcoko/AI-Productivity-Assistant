@@ -20,6 +20,7 @@ const items = [
   { title: "Progress Tracker", url: "/progress-tracker", icon: LineChart },
   { title: "Daily Report", url: "/daily-report", icon: ClipboardCheck },
   { title: "AI Tool Finder", url: "/ai-tool-finder", icon: Wrench },
+  { title: "AI Research Assistant", url: "/research-assistant", icon: BookOpen },
 ];
 
 export function AppSidebar() {
