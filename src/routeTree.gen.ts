@@ -14,6 +14,7 @@ import { Route as WeeklyReflectionRouteImport } from './routes/weekly-reflection
 import { Route as StudyPlannerRouteImport } from './routes/study-planner'
 import { Route as ResponsibleAiRouteImport } from './routes/responsible-ai'
 import { Route as ResearchAssistantRouteImport } from './routes/research-assistant'
+import { Route as ProjectPresentationRouteImport } from './routes/project-presentation'
 import { Route as ProgressTrackerRouteImport } from './routes/progress-tracker'
 import { Route as ManagerInsightsRouteImport } from './routes/manager-insights'
 import { Route as EmailAssistantRouteImport } from './routes/email-assistant'
@@ -46,6 +47,11 @@ const ResponsibleAiRoute = ResponsibleAiRouteImport.update({
 const ResearchAssistantRoute = ResearchAssistantRouteImport.update({
   id: '/research-assistant',
   path: '/research-assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectPresentationRoute = ProjectPresentationRouteImport.update({
+  id: '/project-presentation',
+  path: '/project-presentation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProgressTrackerRoute = ProgressTrackerRouteImport.update({
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/email-assistant': typeof EmailAssistantRoute
   '/manager-insights': typeof ManagerInsightsRoute
   '/progress-tracker': typeof ProgressTrackerRoute
+  '/project-presentation': typeof ProjectPresentationRoute
   '/research-assistant': typeof ResearchAssistantRoute
   '/responsible-ai': typeof ResponsibleAiRoute
   '/study-planner': typeof StudyPlannerRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/email-assistant': typeof EmailAssistantRoute
   '/manager-insights': typeof ManagerInsightsRoute
   '/progress-tracker': typeof ProgressTrackerRoute
+  '/project-presentation': typeof ProjectPresentationRoute
   '/research-assistant': typeof ResearchAssistantRoute
   '/responsible-ai': typeof ResponsibleAiRoute
   '/study-planner': typeof StudyPlannerRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/email-assistant': typeof EmailAssistantRoute
   '/manager-insights': typeof ManagerInsightsRoute
   '/progress-tracker': typeof ProgressTrackerRoute
+  '/project-presentation': typeof ProjectPresentationRoute
   '/research-assistant': typeof ResearchAssistantRoute
   '/responsible-ai': typeof ResponsibleAiRoute
   '/study-planner': typeof StudyPlannerRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/email-assistant'
     | '/manager-insights'
     | '/progress-tracker'
+    | '/project-presentation'
     | '/research-assistant'
     | '/responsible-ai'
     | '/study-planner'
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/email-assistant'
     | '/manager-insights'
     | '/progress-tracker'
+    | '/project-presentation'
     | '/research-assistant'
     | '/responsible-ai'
     | '/study-planner'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/email-assistant'
     | '/manager-insights'
     | '/progress-tracker'
+    | '/project-presentation'
     | '/research-assistant'
     | '/responsible-ai'
     | '/study-planner'
@@ -192,6 +204,7 @@ export interface RootRouteChildren {
   EmailAssistantRoute: typeof EmailAssistantRoute
   ManagerInsightsRoute: typeof ManagerInsightsRoute
   ProgressTrackerRoute: typeof ProgressTrackerRoute
+  ProjectPresentationRoute: typeof ProjectPresentationRoute
   ResearchAssistantRoute: typeof ResearchAssistantRoute
   ResponsibleAiRoute: typeof ResponsibleAiRoute
   StudyPlannerRoute: typeof StudyPlannerRoute
@@ -234,6 +247,13 @@ declare module '@tanstack/react-router' {
       path: '/research-assistant'
       fullPath: '/research-assistant'
       preLoaderRoute: typeof ResearchAssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project-presentation': {
+      id: '/project-presentation'
+      path: '/project-presentation'
+      fullPath: '/project-presentation'
+      preLoaderRoute: typeof ProjectPresentationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/progress-tracker': {
@@ -304,6 +324,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmailAssistantRoute: EmailAssistantRoute,
   ManagerInsightsRoute: ManagerInsightsRoute,
   ProgressTrackerRoute: ProgressTrackerRoute,
+  ProjectPresentationRoute: ProjectPresentationRoute,
   ResearchAssistantRoute: ResearchAssistantRoute,
   ResponsibleAiRoute: ResponsibleAiRoute,
   StudyPlannerRoute: StudyPlannerRoute,
@@ -313,3 +334,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

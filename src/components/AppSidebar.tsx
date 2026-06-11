@@ -2,6 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   Home, Mail, LineChart, Wrench, GraduationCap, ClipboardCheck, BookOpen,
   ShieldAlert, CalendarDays, NotebookPen, Compass, Heart, BarChart3, ShieldCheck,
+  MonitorPlay,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent,
@@ -34,6 +35,7 @@ const groups = [
   {
     label: "Insights",
     items: [
+      { title: "Project Presentation", url: "/project-presentation", icon: MonitorPlay },
       { title: "Manager Insights", url: "/manager-insights", icon: BarChart3 },
       { title: "Responsible AI", url: "/responsible-ai", icon: ShieldCheck },
     ],
