@@ -191,7 +191,7 @@ function ProjectPresentation() {
       <section
         ref={setRef(0)}
         id="overview"
-        className={`space-y-6 transition-all duration-500 ${activeSection === 0 ? "opacity-100" : "opacity-100"}`}
+        className={`space-y-6 transition-all duration-500 ${activeSection === 0 ? "ring-4 ring-purple/20 rounded-3xl p-4 -mx-4" : ""}`}
       >
         <SectionHeader title="Project Overview" icon={MonitorPlay} />
         <div className="grid md:grid-cols-2 gap-5">
