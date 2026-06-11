@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Mail, LineChart, Wrench, ArrowRight, MapPin, Wifi } from "lucide-react";
+import { Mail, LineChart, Wrench, BookOpen, ArrowRight, MapPin, Wifi } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { CapacitiLogo } from "@/components/CapacitiLogo";
 import { ResponsibleAINotice } from "@/components/ResponsibleAINotice";
