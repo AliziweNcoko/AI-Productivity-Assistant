@@ -149,3 +149,20 @@
 @utility shadow-glow {
   box-shadow: var(--shadow-glow);
 }
+
+@keyframes hero-pan {
+  0%, 100% { transform: translate3d(0,0,0) scale(1); }
+  50% { transform: translate3d(2%, -2%, 0) scale(1.08); }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-24px) translateX(12px); }
+}
+@keyframes float-y2 {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(20px) translateX(-16px); }
+}
+@utility animate-hero-pan { animation: hero-pan 14s ease-in-out infinite; }
+@utility animate-float-slow { animation: float-y 11s ease-in-out infinite; }
+@utility animate-float-medium { animation: float-y2 8s ease-in-out infinite; }
+@utility animate-float-fast { animation: float-y 6s ease-in-out infinite; }
