@@ -136,8 +136,7 @@ function ProjectPresentation() {
     <div className="px-4 sm:px-8 py-8 max-w-6xl mx-auto space-y-12">
       {/* Hero */}
       <section
-        ref={setRef(0)}
-        className={`relative overflow-hidden rounded-3xl bg-gradient-hero text-white shadow-glow transition-all duration-500 ${activeSection === 0 ? "ring-4 ring-white/50" : ""}`}
+        className="relative overflow-hidden rounded-3xl bg-gradient-hero text-white shadow-glow transition-all duration-500"
       >
         <PresentationBg />
         <div className="relative p-8 sm:p-14 text-center space-y-6">
