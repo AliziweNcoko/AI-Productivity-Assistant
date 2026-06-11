@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Mail, LineChart, Wrench, GraduationCap, ClipboardCheck } from "lucide-react";
+import { Home, Mail, LineChart, Wrench, GraduationCap, ClipboardCheck, BookOpen } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
