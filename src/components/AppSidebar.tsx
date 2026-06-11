@@ -1,26 +1,43 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Mail, LineChart, Wrench, GraduationCap, ClipboardCheck, BookOpen } from "lucide-react";
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  Home, Mail, LineChart, Wrench, GraduationCap, ClipboardCheck, BookOpen,
+  ShieldAlert, CalendarDays, NotebookPen, Compass, Heart, BarChart3, ShieldCheck,
+} from "lucide-react";
+import {
+  Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent,
+  SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { CapacitiLogo } from "./CapacitiLogo";
 
-const items = [
-  { title: "Dashboard", url: "/", icon: Home },
-  { title: "Smart Email Assistant", url: "/email-assistant", icon: Mail },
-  { title: "Progress Tracker", url: "/progress-tracker", icon: LineChart },
-  { title: "Daily Report", url: "/daily-report", icon: ClipboardCheck },
-  { title: "AI Tool Finder", url: "/ai-tool-finder", icon: Wrench },
-  { title: "AI Research Assistant", url: "/research-assistant", icon: BookOpen },
+const groups = [
+  {
+    label: "Programme",
+    items: [
+      { title: "Dashboard", url: "/", icon: Home },
+      { title: "Daily Report", url: "/daily-report", icon: ClipboardCheck },
+      { title: "Progress Tracker", url: "/progress-tracker", icon: LineChart },
+      { title: "Wellness Check-In", url: "/wellness", icon: Heart },
+    ],
+  },
+  {
+    label: "AI Coach",
+    items: [
+      { title: "Smart Email Assistant", url: "/email-assistant", icon: Mail },
+      { title: "Study Planner", url: "/study-planner", icon: CalendarDays },
+      { title: "Weekly Reflection", url: "/weekly-reflection", icon: NotebookPen },
+      { title: "Attendance Risk", url: "/attendance-risk", icon: ShieldAlert },
+      { title: "Career Advisor", url: "/career-advisor", icon: Compass },
+      { title: "AI Tool Finder", url: "/ai-tool-finder", icon: Wrench },
+      { title: "Research Assistant", url: "/research-assistant", icon: BookOpen },
+    ],
+  },
+  {
+    label: "Insights",
+    items: [
+      { title: "Manager Insights", url: "/manager-insights", icon: BarChart3 },
+      { title: "Responsible AI", url: "/responsible-ai", icon: ShieldCheck },
+    ],
+  },
 ];
 
 export function AppSidebar() {
@@ -38,23 +55,25 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Programme</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton asChild isActive={path === item.url} tooltip={item.title}>
-                    <Link to={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {groups.map((g) => (
+          <SidebarGroup key={g.label}>
+            <SidebarGroupLabel>{g.label}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {g.items.map((item) => (
+                  <SidebarMenuItem key={item.url}>
+                    <SidebarMenuButton asChild isActive={path === item.url} tooltip={item.title}>
+                      <Link to={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
       <SidebarFooter className="border-t border-sidebar-border">
         <div className="flex items-center gap-3 px-2 py-3">
