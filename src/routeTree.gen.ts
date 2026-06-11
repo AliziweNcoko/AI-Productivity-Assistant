@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResearchAssistantRouteImport } from './routes/research-assistant'
 import { Route as ProgressTrackerRouteImport } from './routes/progress-tracker'
 import { Route as EmailAssistantRouteImport } from './routes/email-assistant'
 import { Route as DailyReportRouteImport } from './routes/daily-report'
 import { Route as AiToolFinderRouteImport } from './routes/ai-tool-finder'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ResearchAssistantRoute = ResearchAssistantRouteImport.update({
+  id: '/research-assistant',
+  path: '/research-assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProgressTrackerRoute = ProgressTrackerRouteImport.update({
   id: '/progress-tracker',
   path: '/progress-tracker',
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/daily-report': typeof DailyReportRoute
   '/email-assistant': typeof EmailAssistantRoute
   '/progress-tracker': typeof ProgressTrackerRoute
+  '/research-assistant': typeof ResearchAssistantRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/daily-report': typeof DailyReportRoute
   '/email-assistant': typeof EmailAssistantRoute
   '/progress-tracker': typeof ProgressTrackerRoute
+  '/research-assistant': typeof ResearchAssistantRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,6 +70,7 @@ export interface FileRoutesById {
   '/daily-report': typeof DailyReportRoute
   '/email-assistant': typeof EmailAssistantRoute
   '/progress-tracker': typeof ProgressTrackerRoute
+  '/research-assistant': typeof ResearchAssistantRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,6 +80,7 @@ export interface FileRouteTypes {
     | '/daily-report'
     | '/email-assistant'
     | '/progress-tracker'
+    | '/research-assistant'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -78,6 +88,7 @@ export interface FileRouteTypes {
     | '/daily-report'
     | '/email-assistant'
     | '/progress-tracker'
+    | '/research-assistant'
   id:
     | '__root__'
     | '/'
@@ -85,6 +96,7 @@ export interface FileRouteTypes {
     | '/daily-report'
     | '/email-assistant'
     | '/progress-tracker'
+    | '/research-assistant'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,10 +105,18 @@ export interface RootRouteChildren {
   DailyReportRoute: typeof DailyReportRoute
   EmailAssistantRoute: typeof EmailAssistantRoute
   ProgressTrackerRoute: typeof ProgressTrackerRoute
+  ResearchAssistantRoute: typeof ResearchAssistantRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/research-assistant': {
+      id: '/research-assistant'
+      path: '/research-assistant'
+      fullPath: '/research-assistant'
+      preLoaderRoute: typeof ResearchAssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/progress-tracker': {
       id: '/progress-tracker'
       path: '/progress-tracker'
@@ -141,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   DailyReportRoute: DailyReportRoute,
   EmailAssistantRoute: EmailAssistantRoute,
   ProgressTrackerRoute: ProgressTrackerRoute,
+  ResearchAssistantRoute: ResearchAssistantRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

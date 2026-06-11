@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Mail, LineChart, Wrench, ArrowRight, MapPin, Wifi } from "lucide-react";
+import { Mail, LineChart, Wrench, BookOpen, ArrowRight, MapPin, Wifi } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { CapacitiLogo } from "@/components/CapacitiLogo";
 import { ResponsibleAINotice } from "@/components/ResponsibleAINotice";
@@ -19,6 +19,7 @@ const features = [
   { to: "/email-assistant", title: "Smart Email Assistant", desc: "Draft polished emails to your Day Manager in seconds.", icon: Mail, gradient: "bg-gradient-purple" },
   { to: "/progress-tracker", title: "Progress Tracker", desc: "Check in and get personalised coaching for today.", icon: LineChart, gradient: "bg-gradient-navy" },
   { to: "/ai-tool-finder", title: "AI Tool Finder", desc: "Find the right AI tool for whatever you need to build.", icon: Wrench, gradient: "bg-[linear-gradient(135deg,var(--red),var(--purple))]" },
+  { to: "/research-assistant", title: "AI Research Assistant", desc: "Summarize articles, extract insights, and simplify complex info.", icon: BookOpen, gradient: "bg-[linear-gradient(135deg,var(--navy),var(--purple))]" },
 ];
 
 function Index() {
