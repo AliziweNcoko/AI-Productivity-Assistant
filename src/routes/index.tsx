@@ -154,15 +154,30 @@ function Index() {
   );
 }
 
-function BgPattern() {
+function AnimatedBg() {
   return (
-    <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="hex" width="60" height="52" patternUnits="userSpaceOnUse">
-          <polygon points="30,2 56,17 56,47 30,62 4,47 4,17" fill="none" stroke="white" strokeWidth="1" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#hex)" />
-    </svg>
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Animated gradient wash */}
+      <div className="absolute -inset-[20%] opacity-60 animate-hero-pan"
+        style={{
+          backgroundImage:
+            "radial-gradient(40% 50% at 20% 30%, rgba(91,61,187,0.55), transparent 60%), radial-gradient(35% 45% at 80% 20%, rgba(255,59,78,0.45), transparent 60%), radial-gradient(45% 55% at 60% 85%, rgba(26,43,74,0.6), transparent 60%)",
+        }}
+      />
+      {/* Floating orbs */}
+      <div className="absolute top-10 left-10 h-32 w-32 rounded-full bg-white/10 blur-2xl animate-float-slow" />
+      <div className="absolute bottom-8 right-20 h-40 w-40 rounded-full bg-[color:var(--red)]/30 blur-3xl animate-float-medium" />
+      <div className="absolute top-1/2 right-1/3 h-24 w-24 rounded-full bg-[color:var(--purple)]/40 blur-2xl animate-float-fast" />
+      {/* Hex pattern overlay */}
+      <svg className="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="hex" width="60" height="52" patternUnits="userSpaceOnUse">
+            <polygon points="30,2 56,17 56,47 30,62 4,47 4,17" fill="none" stroke="white" strokeWidth="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#hex)" />
+      </svg>
+    </div>
   );
 }
+
